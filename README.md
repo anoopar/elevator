@@ -33,7 +33,7 @@ Cabin Door remains Open during Idle state.
 Closing door while at rest is avoided for power efficiency.
 
 CABIN_IDLE 
-- Default Init state.
+- Default Init state. Door is open.
 - Transitions to CABIN_CLOSING if a request pending detected.
 - Transitions to CABIN_CLOSING if a Door Close button is pressed.
 - Transitions to MAINTENANCE if Error detected or Maintenace request.
@@ -47,7 +47,7 @@ CABIN_CLOSING
 - Transitions to MAINTENANCE if Error detected or Maintenace request.
 
 CABIN_MOVING
-- Polls the pending request and moves the cabin UP or DOWN according to the requested floor and current cabing position.
+- Polls the pending request and moves the cabin UP or DOWN according to the requested floor and current cabin position.
 - Stops cabin and transitions to CABIN_OPENING if destination floor reached.
 - Transitions to MAINTENANCE if Error detected
 
