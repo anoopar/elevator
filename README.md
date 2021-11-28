@@ -28,5 +28,35 @@
 
 ## State Diagram
 
+Cabin Door remains Open during Idle state.
+
+Closing door while at rest is avoided for power efficiency.
+
+CABIN_IDLE 
+- Default Init state.
+- Transitions to CABIN_CLOSING if a request pending detected.
+- Transitions to CABIN_CLOSING if a Door Close button is pressed.
+- Transitions to MAINTENANCE if Error detected or Maintenace request.
+
+CABIN_CLOSING 
+- Requests Door close. 
+- Transitions to CABIN_OPENING if any door obstructions found.
+- Transitions to CABIN_OPENING if Door Open button is pressed or request is pending from same floor.
+- Transitions to CABIN_OPENING if no pending requests and times out.
+- Transitions to CABIN_MOVING if request pending.
+- Transitions to MAINTENANCE if Error detected or Maintenace request.
+
+CABIN_MOVING
+- Polls the pending request and moves the cabin UP or DOWN according to the requested floor and current cabing position.
+- Stops cabin and transitions to CABIN_OPENING if destination floor reached.
+- Transitions to MAINTENANCE if Error detected
+
+CABIN_OPENING
+- Opens door.
+- Transitions to CABIN_IDLE once the door is opened.
+
+MAINTENANCE
+- Transitions to IDLE on reset
+
 ![Alt text](docs/ElevatorStateDiagram.png?raw=true "State Diagram")
 
