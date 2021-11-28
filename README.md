@@ -26,6 +26,37 @@
     2. Open button pressed 
     3. Obstruction while closing
 
+## System Architecture
+
+![Alt text](docs/ElevatorSystemArchitecture.png?raw=true "System Architecture")
+
+### Modules
+#### Main Worker Thread
+    Foreground loop that periodically calls State machine and display module.
+
+#### State Machine
+    State machine managing the elevator system states and its transitions.
+    Handles input events in each state.
+
+#### Event Manager
+    Records asynchronous user input events.
+    If a polling scheme needs to be used this module will do the polling with the main worker thread calling the event polling method of this module.
+    Any Floor request events will be handed off to the Request manager module.
+    Other user inputs are translated to system events and passed on to the state machine.
+
+#### Request Manager
+    Module to handle and arbitrate all the requests of the elevator.
+    Records the new requests. 
+    State machine calls into this module with the current state info to get the next request.
+    This module abstract any algorithms to prioritize the request. 
+    If the system needs to be scaled into a multi floor elevator system or a multi floor multi elevator system, this object can be extended. The changes will be localised to this module. 
+
+#### IO Module
+    HAL for GPIO ISRs and other IO input.
+
+#### Display Module
+    Display for user at each floors and inside cabin.
+
 ## State Diagram
 
 Cabin Door remains Open during Idle state.
