@@ -4,7 +4,7 @@
 #include "request_mgr.h"
 #include "event_types.h"
 
-class CabinIdleState : public StateBase
+class CabinClosingState : public StateBase
 {
 public:
     virtual void Init();

@@ -2,7 +2,7 @@
 
 typedef enum _StateEnum
 {
-    STATE_START,
+    STATE_START = 0,
 
     CABIN_IDLE = STATE_START,
     CABIN_CLOSING,
