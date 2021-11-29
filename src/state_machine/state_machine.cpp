@@ -23,10 +23,10 @@ StateMachine::StateMachine(/*HALModuleBase* hal, */ RequestMgr *requestMgr) : re
  */
 void StateMachine::Reset(void)
 {
-    info.floor = 0;
-    info.state = CABIN_IDLE;
-    info.reqFloor = 0;
-    info.reqMovement = IDLE;
+    context.floor = 0;
+    context.state = CABIN_IDLE;
+    context.requestedFloor = 0;
+    context.requestedMovement = IDLE;
 
     // Load Idle state
     TransitionTo(CABIN_IDLE);
@@ -38,8 +38,8 @@ void StateMachine::Reset(void)
  */
 void StateMachine::RunStateMachine(void)
 {
-    StateEnum newState = states[info.state]->Execute(info, reqMgr);
-    if (newState != info.state)
+    StateEnum newState = states[context.state]->Execute(context, reqMgr);
+    if (newState != context.state)
     {
         TransitionTo(newState);
     }
@@ -52,7 +52,7 @@ void StateMachine::RunStateMachine(void)
  */
 void StateMachine::HandleEvent(EventType event)
 {
-    states[info.state]->HandleEvent(event);
+    states[context.state]->HandleEvent(event);
 }
 
 /**
@@ -76,5 +76,5 @@ StateMachine::~StateMachine()
 void StateMachine::TransitionTo(StateEnum state)
 {
     states[state]->Init();
-    info.state = state;
+    context.state = state;
 }

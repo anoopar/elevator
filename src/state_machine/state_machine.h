@@ -8,7 +8,7 @@
 class StateMachine
 {
 private:
-    StateInfo info;
+    StateInfo context;
     RequestMgr *reqMgr;
     StateBase *states[MAX_STATES];
 
@@ -48,7 +48,7 @@ public:
      */
     StateEnum GetCurrentState(void)
     {
-        return info.state;
+        return context.state;
     }
 
     /**
@@ -58,7 +58,7 @@ public:
      */
     void GetStateInfo(StateInfo &infoOut)
     {
-        infoOut = info;
+        infoOut = context;
     }
     /**
      * @brief Destroy the State Machine object

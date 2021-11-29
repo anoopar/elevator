@@ -4,11 +4,12 @@
 #include "request_mgr.h"
 #include "event_types.h"
 
-#define TIMEOUT_COUNT_MAX (16)
+#define DOOR_CLOSE_WAIT_TIMEOUT_COUNT (16)
+#define WAIT_FOR_REQUEST_TIMEOUT_COUNT (16)
 
 class CabinClosingState : public StateBase
 {
-    bool maintenaceRequested = false;
+    bool maintenanceRequested = false;
     bool doorOpenRequired = false;
     unsigned int timeoutCounter = 0;
 
@@ -27,7 +28,7 @@ public:
 
     virtual void Init()
     {
-        maintenaceRequested = false;
+        maintenanceRequested = false;
         doorOpenRequired = false;
         timeoutCounter = 0;
         substate = SUBSTATE_DOOR_CLOSE_START;
@@ -54,7 +55,7 @@ public:
             // Do nothing.. polled in execute
             break;
         case MAINTENANCE_REQUEST:
-            maintenaceRequested = true;
+            maintenanceRequested = true;
             break;
         default:
             break;
@@ -78,7 +79,7 @@ public:
         StateEnum retState = CABIN_CLOSING;
 
         // Giving maintenance request higher priority
-        if (maintenaceRequested == true)
+        if (maintenanceRequested == true)
         {
             retState = MAINTENANCE;
         }
@@ -97,7 +98,7 @@ public:
                 break;
             case SUBSTATE_DOOR_CLOSE_WAIT_FOR_DONE:
                 timeoutCounter++;
-                if (timeoutCounter >= TIMEOUT_COUNT_MAX)
+                if (timeoutCounter >= DOOR_CLOSE_WAIT_TIMEOUT_COUNT)
                 {
                     // Unable to close the door
                     // ERROR occured
@@ -107,7 +108,7 @@ public:
             case SUBSTATE_WAITING_FOR_REQUEST:
                 // Try and get the next floor request
                 GetNextRequestWrapper(context, reqMgr);
-                if (context.floor != context.reqFloor)
+                if (context.floor != context.requestedFloor)
                 {
                     // Door closed, ready to move
                     retState = CABIN_MOVING;
@@ -116,7 +117,7 @@ public:
                 {
                     // timeoutCounter is set to 0 at transition
                     timeoutCounter++;
-                    if (timeoutCounter >= TIMEOUT_COUNT_MAX)
+                    if (timeoutCounter >= WAIT_FOR_REQUEST_TIMEOUT_COUNT)
                     {
                         // No pending requests found
                         retState = CABIN_OPENING;

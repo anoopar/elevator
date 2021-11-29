@@ -6,7 +6,7 @@
 
 class CabinIdleState : public StateBase
 {
-    bool maintenaceRequested = false;
+    bool maintenanceRequested = false;
     bool doorCloseRequired = false;
 
 public:
@@ -15,7 +15,7 @@ public:
 
     virtual void Init()
     {
-        maintenaceRequested = false;
+        maintenanceRequested = false;
         doorCloseRequired = false;
     }
 
@@ -28,7 +28,7 @@ public:
             doorCloseRequired = true;
             break;
         case MAINTENANCE_REQUEST:
-            maintenaceRequested = true;
+            maintenanceRequested = true;
             break;
         default:
             break;
@@ -52,7 +52,7 @@ public:
         StateEnum retState = CABIN_IDLE;
 
         // Giving maintenance request higher priority
-        if (maintenaceRequested == true)
+        if (maintenanceRequested == true)
         {
             retState = MAINTENANCE;
         }
@@ -61,7 +61,7 @@ public:
             // Try and get the next floor request
             GetNextRequestWrapper(context, reqMgr);
 
-            if (context.reqFloor != context.floor)
+            if (context.requestedFloor != context.floor)
             {
                 // need to tranition to CABIN_CLOSING
                 retState = CABIN_CLOSING;

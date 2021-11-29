@@ -11,9 +11,9 @@ protected:
                                RequestMgr *reqMgr)
     {
         MoveRequest request;
-        reqMgr->GetNextRequest(context.floor, context.reqMovement, request);
-        context.reqFloor = request.floor;
-        context.reqMovement = request.reqMove;
+        reqMgr->GetNextRequest(context.floor, context.requestedMovement, request);
+        context.requestedFloor = request.floor;
+        context.requestedMovement = request.reqMove;
     }
 
 public:

@@ -36,10 +36,10 @@ typedef struct _StateInfo
      * @brief Requested floor
      * 
      */
-    unsigned int reqFloor;
+    unsigned int requestedFloor;
     /**
      * @brief Current request elevator movement
      * 
      */
-    ElevatorMovement reqMovement;
+    ElevatorMovement requestedMovement;
 } StateInfo;
