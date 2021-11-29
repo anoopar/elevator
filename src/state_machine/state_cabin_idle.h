@@ -7,8 +7,9 @@
 class CabinIdleState : public StateBase
 {
 public:
-    virtual void Init();
-    virtual void HandleEvent(EventType event);
+    CabinIdleState() {}
+    virtual void Init() {}
+    virtual void HandleEvent(EventType event) {}
 
     /**
      * @brief Execute - Runs the state machine action for the current state
@@ -21,5 +22,8 @@ public:
      */
     virtual StateEnum Execute(StateInfo &context,
                               RequestMgr *reqMgr
-                              /*HALModuleBase* hal*/);
+                              /*HALModuleBase* hal*/)
+    {
+        return context.state;
+    }
 };

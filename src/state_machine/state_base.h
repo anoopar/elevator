@@ -7,6 +7,7 @@
 class StateBase
 {
 public:
+    StateBase() {}
     virtual void Init() = 0;
     virtual void HandleEvent(EventType event) = 0;
 
