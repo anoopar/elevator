@@ -6,10 +6,34 @@
 
 class CabinIdleState : public StateBase
 {
+    bool maintenaceRequested = false;
+    bool doorCloseRequired = false;
+
 public:
     CabinIdleState() {}
-    virtual void Init() {}
-    virtual void HandleEvent(EventType event) {}
+    virtual ~CabinIdleState() = default;
+
+    virtual void Init()
+    {
+        maintenaceRequested = false;
+        doorCloseRequired = false;
+    }
+
+    virtual void HandleEvent(EventType event)
+    {
+        switch (event)
+        {
+        case DOOR_CLOSE_REQUEST:
+        case FLOOR_REQUEST:
+            doorCloseRequired = true;
+            break;
+        case MAINTENANCE_REQUEST:
+            maintenaceRequested = true;
+            break;
+        default:
+            break;
+        }
+    }
 
     /**
      * @brief Execute - Runs the state machine action for the current state
@@ -24,6 +48,21 @@ public:
                               RequestMgr *reqMgr
                               /*HALModuleBase* hal*/)
     {
-        return context.state;
+        // default return is the same state
+        StateEnum retState = CABIN_IDLE;
+
+        // Giving maintenance request higher priority
+        if (maintenaceRequested == true)
+        {
+            retState = MAINTENANCE;
+        }
+        else if (doorCloseRequired == true)
+        {
+            // Try and get the next floor request
+            GetNextRequestWrapper(context, reqMgr);
+            // need to tranition to CABIN_CLOSING
+            retState = CABIN_CLOSING;
+        }
+        return retState;
     }
 };

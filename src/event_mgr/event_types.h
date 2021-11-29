@@ -8,5 +8,6 @@ typedef enum _EventType
     FLOOR_SENSOR,
     DOOR_OPEN_REQUEST,
     DOOR_CLOSE_REQUEST,
-    FLOOR_REQUEST
+    FLOOR_REQUEST,
+    MAINTENANCE_REQUEST
 } EventType;

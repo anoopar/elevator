@@ -6,17 +6,20 @@
 
 class StateBase
 {
+protected:
+    void GetNextRequestWrapper(StateInfo &context,
+                               RequestMgr *reqMgr)
+    {
+        MoveRequest request;
+        reqMgr->GetNextRequest(context.floor, context.reqMovement, request);
+        context.reqFloor = request.floor;
+        context.reqMovement = request.reqMove;
+    }
+
 public:
     StateBase() {}
     virtual void Init() = 0;
     virtual void HandleEvent(EventType event) = 0;
-
-    /**
-     * @brief 
-     * 
-     * @return StateEnum denoting the next state to be transitioned to.
-     *         Current state value is returned to stay in the state.
-     */
 
     /**
      * @brief Execute - Runs the state machine action for the current state
