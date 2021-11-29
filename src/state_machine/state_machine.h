@@ -27,10 +27,39 @@ public:
      */
     void Reset(void);
 
+    /**
+     * @brief State Machine execution
+     * Called at regular cadence.
+     * 
+     */
     void RunStateMachine(void);
 
+    /**
+     * @brief Handle the Events from Event Manager
+     * 
+     * @param event Event to handle
+     */
     void HandleEvent(EventType event);
 
+    /**
+     * @brief Get the Current State object
+     * 
+     * @return StateEnum 
+     */
+    StateEnum GetCurrentState(void)
+    {
+        return info.state;
+    }
+
+    /**
+     * @brief Get the State Info object
+     * 
+     * @param infoOut 
+     */
+    void GetStateInfo(StateInfo &infoOut)
+    {
+        infoOut = info;
+    }
     /**
      * @brief Destroy the State Machine object
      * 

@@ -60,8 +60,12 @@ public:
         {
             // Try and get the next floor request
             GetNextRequestWrapper(context, reqMgr);
-            // need to tranition to CABIN_CLOSING
-            retState = CABIN_CLOSING;
+
+            if (context.reqFloor != context.floor)
+            {
+                // need to tranition to CABIN_CLOSING
+                retState = CABIN_CLOSING;
+            }
         }
         return retState;
     }
