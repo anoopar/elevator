@@ -1,8 +1,6 @@
 # Elevator
 
-
 ## System Overview
-
 
 - Mechanical elevator moves vertically between floors.
 - Switches inside the elevator : Door close, door open, Floor number selection
@@ -63,6 +61,8 @@ Cabin Door remains Open during Idle state.
 
 Closing door while at rest is avoided for power efficiency.
 
+Code : src/state_machine
+
 #### CABIN_IDLE 
 
     - Default Init state. Door is open.
@@ -96,3 +96,20 @@ Closing door while at rest is avoided for power efficiency.
 
 ![Alt text](docs/ElevatorStateDiagram.png?raw=true "State Diagram")
 
+### State Machine - Sequence Diagram
+
+![Alt text](docs/Elevator_SM_SequenceDiagram.png?raw=true "Sequence Diagram")
+
+## Assumptions
+
+- [ ] Power Up / Power Loss Sequence - On power up, before the state machine is initilized the cabin is moved to home and default door open position.
+- [ ] No emergency stop inputs.
+- [ ] HAL module drives the motor and door. 
+- [ ] inputs from hardware (GPIO/sensors/encoders etc) are managed by the event manager and translated into "Events".
+- [ ] Only state machine design is in scope.
+
+## Design Issues
+
+- The events send to state machine that not handled in current state are not queued or passed to next state if in transition. Mostly ignored events are the right behaviour for the state, but there can be a window while transition where events can be lost.
+- Timeout counters are based on the cadence of the state machine execution. Needs a config param to correctly determine the timeout values probably at compile time rather than hardcoding them.
+- Constant cadence of execution loop for state machine is expected. This timing dependency should be eliminated.

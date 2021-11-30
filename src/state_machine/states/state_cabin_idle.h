@@ -10,7 +10,7 @@ class CabinIdleState : public StateBase
     bool doorCloseRequired = false;
 
 public:
-    CabinIdleState() {}
+    CabinIdleState(StateInfo *pCtx, RequestMgr *pReqMgr) : StateBase(pCtx, pReqMgr) {}
     virtual ~CabinIdleState() = default;
 
     virtual void Init()
@@ -38,15 +38,10 @@ public:
     /**
      * @brief Execute - Runs the state machine action for the current state
      * 
-     * @param context 
-     * @param reqMgr 
-     * @param hal 
      * @return StateEnum denoting the next state to be transitioned to.
      *         Current state value is returned to stay in the state.
      */
-    virtual StateEnum Execute(StateInfo &context,
-                              RequestMgr *reqMgr
-                              /*HALModuleBase* hal*/)
+    virtual StateEnum Execute()
     {
         // default return is the same state
         StateEnum retState = CABIN_IDLE;
@@ -59,9 +54,9 @@ public:
         else if (doorCloseRequired == true)
         {
             // Try and get the next floor request
-            GetNextRequestWrapper(context, reqMgr);
+            GetNextRequestWrapper();
 
-            if (context.requestedFloor != context.floor)
+            if (pCtx->requestedFloor != pCtx->floor)
             {
                 // need to tranition to CABIN_CLOSING
                 retState = CABIN_CLOSING;

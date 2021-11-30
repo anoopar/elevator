@@ -1,5 +1,5 @@
 #include "state_machine.h"
-#include "state_builder.h"
+#include "state_factory.h"
 
 /**
  * @brief Constructs StateMachine object
@@ -10,7 +10,7 @@ StateMachine::StateMachine(/*HALModuleBase* hal, */ RequestMgr *requestMgr) : re
     // Prime the state objects
     for (int i = STATE_START; i < MAX_STATES; ++i)
     {
-        states[i] = StateBuilder::BuildState((StateEnum)i);
+        states[i] = StateBuilder::BuildState((StateEnum)i, &context, requestMgr);
     }
 
     // reset the state context
@@ -38,7 +38,7 @@ void StateMachine::Reset(void)
  */
 void StateMachine::RunStateMachine(void)
 {
-    StateEnum newState = states[context.state]->Execute(context, reqMgr);
+    StateEnum newState = states[context.state]->Execute();
     if (newState != context.state)
     {
         TransitionTo(newState);

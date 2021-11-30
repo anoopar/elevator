@@ -23,7 +23,7 @@ class CabinClosingState : public StateBase
     CabinClosingSubState substate;
 
 public:
-    CabinClosingState() {}
+    CabinClosingState(StateInfo *pCtx, RequestMgr *pReqMgr) : StateBase(pCtx, pReqMgr) {}
     virtual ~CabinClosingState() = default;
 
     virtual void Init()
@@ -65,15 +65,10 @@ public:
     /**
      * @brief Execute - Runs the state machine action for the current state
      * 
-     * @param context 
-     * @param reqMgr 
-     * @param hal 
      * @return StateEnum denoting the next state to be transitioned to.
      *         Current state value is returned to stay in the state.
      */
-    virtual StateEnum Execute(StateInfo &context,
-                              RequestMgr *reqMgr
-                              /*HALModuleBase* hal*/)
+    virtual StateEnum Execute()
     {
         // default return is the same state
         StateEnum retState = CABIN_CLOSING;
@@ -107,8 +102,8 @@ public:
                 break;
             case SUBSTATE_WAITING_FOR_REQUEST:
                 // Try and get the next floor request
-                GetNextRequestWrapper(context, reqMgr);
-                if (context.floor != context.requestedFloor)
+                GetNextRequestWrapper();
+                if (pCtx->floor != pCtx->requestedFloor)
                 {
                     // Door closed, ready to move
                     retState = CABIN_MOVING;

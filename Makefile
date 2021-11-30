@@ -2,6 +2,7 @@ CXX       := g++
 CXX_FLAGS := -std=c++14 
 # CXX_FLAGS += -ggdb
 CXX_FLAGS += -Wall
+CXX_FLAGS += -Wno-unused-private-field
 
 BIN     := bin
 SRC     := src
