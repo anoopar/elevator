@@ -5,6 +5,7 @@
 #include "event_types.h"
 
 #define ONE_FLOOR_JOURNEY_TIMEOUT_COUNT (120)
+
 class CabinMovingState : public StateBase
 {
     unsigned int timeoutCounter = 0;

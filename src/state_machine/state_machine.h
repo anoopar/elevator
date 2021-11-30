@@ -58,6 +58,7 @@ public:
      */
     void GetStateInfo(StateInfo &infoOut)
     {
+        // copy the context into infoOut
         infoOut = context;
     }
     /**

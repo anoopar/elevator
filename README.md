@@ -110,6 +110,6 @@ Code : src/state_machine
 
 ## Design Issues
 
-- The events send to state machine that not handled in current state are not queued or passed to next state if in transition. Mostly ignored events are the right behaviour for the state, but there can be a window while transition where events can be lost.
-- Timeout counters are based on the cadence of the state machine execution. Needs a config param to correctly determine the timeout values probably at compile time rather than hardcoding them.
-- Constant cadence of execution loop for state machine is expected. This timing dependency should be eliminated.
+- The events send to state machine that are not handled in current state are not queued or passed to next state if in transition. Some events are ignored for a state as per design, but there can be a window during transition, where events can be lost.
+- Timeout counters are based on the cadence of the state machine execution. Needs a config parameter to correctly determine the timeout values probably at compile time rather than hardcoding them.
+- Constant frequency of execution loop for state machine is expected. This timing dependency should be eliminated.

@@ -83,4 +83,19 @@ public:
             requestFLags[floor] = 1;
         }
     }
+
+    /**
+     * @brief Reset the module - Clear all requests. 
+     *        Set requested floor to 0
+     * 
+     */
+    void Reset(void)
+    {
+        // clear all requests
+        for (int i = 0; i < NUM_FLOORS; ++i)
+        {
+            requestFLags[i] = 0;
+        }
+        requestedFloor = 0;
+    }
 };
