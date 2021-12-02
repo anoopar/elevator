@@ -110,6 +110,8 @@ TEST_F(ElevatorTestFixture, IgnoredEvents_IdleState)
 
 TEST_F(ElevatorTestFixture, DoorCloseRequest_NoFloorRequest_IdleState)
 {
+    reqMgr.Reset();
+
     EXPECT_EQ(sm->GetCurrentState(), CABIN_IDLE)
         << "Curent state " << sm->GetCurrentState() << ", but expected " << CABIN_IDLE;
     sm->RunStateMachine();
@@ -123,6 +125,8 @@ TEST_F(ElevatorTestFixture, DoorCloseRequest_NoFloorRequest_IdleState)
 
 TEST_F(ElevatorTestFixture, DoorCloseRequest_SameFloorRequest_IdleState)
 {
+    reqMgr.Reset();
+
     EXPECT_EQ(sm->GetCurrentState(), CABIN_IDLE)
         << "Curent state " << sm->GetCurrentState() << ", but expected " << CABIN_IDLE;
     sm->RunStateMachine();
@@ -137,6 +141,8 @@ TEST_F(ElevatorTestFixture, DoorCloseRequest_SameFloorRequest_IdleState)
 
 TEST_F(ElevatorTestFixture, DoorCloseRequest_NewFloorRequest_IdleState)
 {
+    reqMgr.Reset();
+
     EXPECT_EQ(sm->GetCurrentState(), CABIN_IDLE)
         << "Curent state " << sm->GetCurrentState() << ", but expected " << CABIN_IDLE;
     sm->RunStateMachine();
