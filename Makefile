@@ -15,10 +15,12 @@ OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARIES   :=
 EXECUTABLE  := main
 
-all: $(BIN)/$(EXECUTABLE)
+.PHONY: all
+all: clean $(BIN)/$(EXECUTABLE)
 
 $(BIN)/$(EXECUTABLE): $(SOURCES)
 	$(CXX) $(CXX_FLAGS) $(INC) $^ -o $@ $(LIBRARIES)
 
+.PHONY: clean
 clean:
 	-rm -rf $(BIN)/*
