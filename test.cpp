@@ -116,9 +116,26 @@ TEST_F(ElevatorTestFixture, DoorCloseRequest_NoFloorRequest_IdleState)
         << "Curent state " << sm->GetCurrentState() << ", but expected " << CABIN_IDLE;
     sm->RunStateMachine();
 
+    EXPECT_EQ(sm->GetCurrentState(), CABIN_IDLE)
+        << "Curent state " << sm->GetCurrentState() << ", but expected " << CABIN_IDLE;
+    StateInfo info;
+    sm->GetStateInfo(info);
+    EXPECT_EQ(info.floor, 0);
+    EXPECT_EQ(info.requestedFloor, 0);
+
     // DOOR_CLOSE_REQUEST - will be ignored since no pending floor request
     sm->HandleEvent(DOOR_CLOSE_REQUEST);
+
+    sm->GetStateInfo(info);
+    EXPECT_EQ(info.floor, 0);
+    EXPECT_EQ(info.requestedFloor, 0);
+
     sm->RunStateMachine();
+
+    sm->GetStateInfo(info);
+    EXPECT_EQ(info.floor, 0);
+    EXPECT_EQ(info.requestedFloor, 0);
+
     EXPECT_EQ(sm->GetCurrentState(), CABIN_IDLE)
         << "Curent state " << sm->GetCurrentState() << ", but expected " << CABIN_IDLE;
 }
