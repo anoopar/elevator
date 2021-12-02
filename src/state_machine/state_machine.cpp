@@ -7,14 +7,17 @@
  */
 StateMachine::StateMachine(/*HALModuleBase* hal, */ RequestMgr *requestMgr) : reqMgr(requestMgr)
 {
-    // reset the state context
-    Reset();
+    // init the state context
+    InitContext();
 
     // Prime the state objects
     for (int i = STATE_START; i < MAX_STATES; ++i)
     {
         states[i] = StateBuilder::BuildState((StateEnum)i, &context, requestMgr);
     }
+
+    // Load Idle state
+    TransitionTo(CABIN_IDLE);
 }
 
 /**
@@ -23,10 +26,7 @@ StateMachine::StateMachine(/*HALModuleBase* hal, */ RequestMgr *requestMgr) : re
  */
 void StateMachine::Reset(void)
 {
-    context.floor = 0;
-    context.state = CABIN_IDLE;
-    context.requestedFloor = 0;
-    context.requestedMovement = IDLE;
+    InitContext();
 
     // Load Idle state
     TransitionTo(CABIN_IDLE);
@@ -66,6 +66,18 @@ StateMachine::~StateMachine()
         delete states[i];
         states[i] = nullptr;
     }
+}
+
+/**
+ * @brief Init the state context
+ * 
+ */
+void StateMachine::InitContext(void)
+{
+    context.floor = 0;
+    context.state = CABIN_IDLE;
+    context.requestedFloor = 0;
+    context.requestedMovement = IDLE;
 }
 
 /**

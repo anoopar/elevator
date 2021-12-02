@@ -12,6 +12,7 @@ private:
     RequestMgr *reqMgr;
     StateBase *states[MAX_STATES];
 
+    void InitContext(void);
     void TransitionTo(StateEnum state);
 
 public:
