@@ -1,3 +1,5 @@
+![Elevator Unit Testing](https://github.com/anoopar/elevator/actions/workflows/cmake.yml/badge.svg)
+
 # Elevator
 
 ## System Overview
