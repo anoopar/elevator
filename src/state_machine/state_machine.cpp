@@ -7,14 +7,14 @@
  */
 StateMachine::StateMachine(/*HALModuleBase* hal, */ RequestMgr *requestMgr) : reqMgr(requestMgr)
 {
+    // reset the state context
+    Reset();
+
     // Prime the state objects
     for (int i = STATE_START; i < MAX_STATES; ++i)
     {
         states[i] = StateBuilder::BuildState((StateEnum)i, &context, requestMgr);
     }
-
-    // reset the state context
-    Reset();
 }
 
 /**
