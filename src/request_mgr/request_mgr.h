@@ -59,10 +59,11 @@ public:
         if (requestedFloor == currentFloor)
         {
             nextRequest.reqMove = IDLE;
+            nextRequest.floor = currentFloor;
             UpdateNextRequestedFloor();
         }
 
-        if (requestedFloor != currentFloor)
+        if (requestedFloor != currentFloor && currentMovement == IDLE)
         {
             nextRequest.floor = currentFloor == 0 ? 1 : 0;
             nextRequest.reqMove = (ElevatorMovement)(nextRequest.floor - currentFloor);
